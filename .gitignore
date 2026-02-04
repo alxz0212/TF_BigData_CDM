@@ -1,0 +1,19 @@
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Datos (Importante: no subir datos)
+data/
+*.csv
+*.parquet
+*.db
+
+# Archivos de sistema y Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+
+# Secretos y configuración local
+.env
