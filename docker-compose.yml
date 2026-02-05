@@ -61,17 +61,14 @@ services:
     ports:
       - "8888:8888" # JupyterLab
       - "4040:4040" # Spark UI (Driver)
+      - "8501:8501" # Streamlit Dashboard
     environment:
       - JUPYTER_ENABLE_LAB=yes
       - JUPYTER_TOKEN=bigdata2024 # Acceso fijado
       - SPARK_MASTER=spark://spark-master:7077
       - SPARK_DRIVER_HOST=jupyter_lab
     volumes:
-      - ./notebooks:/home/jovyan/work/notebooks
-      - ./data:/home/jovyan/work/data
-      - ./jars:/home/jovyan/work/jars
-      - ./src:/home/jovyan/work/src
-      - ./requirements.txt:/home/jovyan/work/requirements.txt
+      - .:/home/jovyan/work
     depends_on:
       - spark-master
       - postgres

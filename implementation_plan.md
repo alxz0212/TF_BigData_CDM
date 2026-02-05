@@ -134,3 +134,43 @@ Responder la pregunta de investigación mediante visualización de datos y un mo
 
 1.  Ejecutar el notebook `notebooks/02_analisis_gran_juego.ipynb`.
 2.  Obtener el gráfico de Importancia de Variables.
+
+## Etapa 5: Reflexión IA (Bloque D)
+
+### Objetivo
+
+Documentar los 3 momentos clave (Arranque, Error, Aprendizaje) y adjuntar evidencia del uso de IA en el proceso de desarrollo.
+
+### Entregables
+
+1.  **`04_REFLEXION_IA.md`**: Bitácora detallada con:
+    - Prompts exactos.
+    - Explicación de errores (ej. Puertos Docker, SparkSession).
+    - Capturas de pantalla.
+
+### Verificación
+
+1.  Comprobar que el archivo `04_REFLEXION_IA.md` existe y cubre los Bloques A, B y C.
+
+## Etapa 6: Dashboard Interactivo (Extra)
+
+### Objetivo
+
+Crear una "Super Web" interactiva utilizando **Streamlit** que permita explorar los datos transformados, visualizar las correlaciones dinámicamente y simular escenarios con el modelo Random Forest en tiempo real.
+
+### Componentes [NUEVO]
+
+1.  **`src/app_streamlit.py`**:
+    - **Carga de Datos**: Lee `qog_great_game.parquet` mediante Pandas (optimización para UI).
+    - **Visualización**: Gráficos interactivos Plolty (Líneas temporales, Scatter plot poblacional).
+    - **ML en Vivo**: Entrenamiento on-the-fly de Random Forest con sliders para modificar variables de entrada.
+    - **Documentación Integrada**: Visor de archivos Markdown (.md) dentro de la app.
+
+2.  **Infraestructura**:
+    - Exposición del puerto `8501`.
+    - Instalación de dependencias: `streamlit`, `plotly`, `scikit-learn` en el contenedor.
+
+### Verificación
+
+1.  Comando de ejecución: `docker exec -d jupyter_lab streamlit run /home/jovyan/work/src/app_streamlit.py`.
+2.  Acceso navegador: `http://localhost:8501`.
