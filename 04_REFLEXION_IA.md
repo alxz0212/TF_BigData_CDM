@@ -1,7 +1,7 @@
-# Bloque D: Reflexión IA - "3 Momentos Clave"
+# Paso 4: Reflexión IA - "3 Momentos Clave"
 
 **Alumno:** Daniel Alexis Mendoza Corne  
-**Fecha:** 04/02/2026
+**Fecha:** Febrero 2026
 
 ---
 
@@ -19,10 +19,21 @@ Al intentar verificar los servicios, intenté acceder vía navegador a los puert
 
 - **Resolución:** Aprendí que esos son puertos de comunicación interna (TCP) para los servicios, no interfaces web HTTP. Me dirigí a los puertos correctos visuales: `8080` (Spark UI) y `8888` (JupyterLab).
 
+**Otro Error Detectado: PySpark Module**
+- **Fallo:** `ModuleNotFoundError: No module named 'pyspark'` al correr scripts internos.
+- **Causa:** La imagen base contiene Spark pero no el paquete pip accesible por defecto en scripts externos.
+- **Resolución:** Se añadió explícitamente `pyspark==3.5.0` en `requirements.txt` para hacer match con la versión binaria del contenedor.
+
 ### 3. Aprendizaje
 
 **¿Qué aprendiste que NO sabías antes?**  
 La diferencia crítica entre los puertos expuestos para clientes (Navegador) y los puertos de servicio interno en Docker. También cómo persistir datos usando `volumes` para no perder mis notebooks al reiniciar el contenedor.
+
+**Otro Error Detectado: Spark Worker Offline**
+- **Fallo:** En la interfaz `localhost:8080`, aparecía "Alive Workers: 0" aunque el contenedor existía.
+- **Causa:** Al reconstruir y levantar solo el servicio `jupyter-lab`, docker-compose no necesariamente reinicia o mantiene activos los contenedores dependientes si no se especifican.
+- **Resolución:** Ejecutar `docker-compose up -d` (sin especificar servicio) y verificar con `docker ps` aseguró que tanto Master como Worker estuvieran activos.
+- **Aprendizaje:** La "Arquitectura Distribuida" requiere validación explícita de que todos los nodos están vivos, no basta con que el código corra (que puede estar en modo local).
 
 ### 💬 Prompt Clave (Bloque A)
 

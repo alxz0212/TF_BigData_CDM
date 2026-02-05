@@ -111,7 +111,13 @@ with tab1:
         fig_line = px.line(df_hist, x='year', y='gle_cgdpc', color='cname', 
                            markers=True, title="Trayectoria Económica (1991-2023)",
                            labels={'gle_cgdpc': 'PIB per Cápita', 'year': 'Año', 'cname': 'País'})
+        
+        # Agregamos una línea vertical para indicar el año seleccionado en el slider
+        fig_line.add_vline(x=selected_year, line_width=2, line_dash="dash", line_color="red", 
+                           annotation_text=f"Año {selected_year}", annotation_position="top right")
+                           
         st.plotly_chart(fig_line, use_container_width=True)
+        st.caption("ℹ️ **Interpretación:** Visualiza la tendencia histórica del desarrollo económico. La línea vertical roja indica el punto temporal seleccionado para el análisis comparativo.")
         
     with col_viz2:
         st.subheader("Relación: Gasto Militar vs PIB")
@@ -124,6 +130,7 @@ with tab1:
                                     title=f"Scatter Plot (Año {selected_year})",
                                     labels={'wdi_expmil': 'Gasto Militar (%)', 'gle_cgdpc': 'PIB', 'wdi_pop': 'Población'})
             st.plotly_chart(fig_scatter, use_container_width=True)
+            st.caption("ℹ️ **Interpretación:** Correlaciona el 'Poder Duro' (inversión militar) con la riqueza nacional. El tamaño de las burbujas representa la Población, añadiendo una dimensión demográfica al análisis.")
         else:
             st.warning("No hay datos completos de Población/Gasto Militar para este año.")
 
@@ -185,8 +192,11 @@ with tab2:
         }).sort_values(by='Importance', ascending=True)
         
         fig_imp = px.bar(importances, x='Importance', y='Feature', orientation='h', 
-                         color='Importance', color_continuous_scale='Viridis')
+                         color='Importance', color_continuous_scale='Viridis',
+                         title="Importancia de Variables (Feature Importance)",
+                         text_auto='.2f') # Muestra el valor en las barras con 2 decimales
         st.plotly_chart(fig_imp, use_container_width=True)
+        st.caption("ℹ️ **Interpretación ML:** El modelo Random Forest identifica qué variables influyen más en la predicción del PIB. Nótese cómo el Gasto Militar (`wdi_expmil`) a menudo supera a las variables democráticas, validando la hipótesis del 'Poder Duro'.")
 
 # -----------------------------------------------------------------------------
 # Tab 3: Visión regional
@@ -197,6 +207,7 @@ with tab3:
                      title="Distribución del PIB por Región Geopolítica",
                      points="all")
     st.plotly_chart(fig_box, use_container_width=True)
+    st.caption("ℹ️ **Interpretación Regional:** Este gráfico de caja (Boxplot) compara la dispersión de la riqueza económica. Permite identificar qué subregión tiene mayor PIB mediano y qué tan desigual es el crecimiento entre los países de cada zona.")
 
 # -----------------------------------------------------------------------------
 # Tab 4: Documentación del Proyecto
@@ -214,10 +225,12 @@ with tab4:
     st.markdown("Selecciona el documento que deseas visualizar:")
     
     docs = {
-        "ℹ️ README (General)": "README.md",
+        "ℹ️ README (General)": "01_README.md",
         "🏗️ Infraestructura": "02_INFRAESTRUCTURA.md",
+        "💻 Explicación Código": "05_EXPLICACION_CODIGO.md",
         "📊 Resultados y Análisis": "03_RESULTADOS.md",
-        "🧠 Reflexión IA": "04_REFLEXION_IA.md"
+        "🧠 Reflexión IA": "04_REFLEXION_IA.md",
+        "📝 Respuestas": "06_RESPUESTAS.md"
     }
     
     selected_doc_name = st.radio("Archivos Disponibles:", list(docs.keys()), horizontal=True)
@@ -295,58 +308,102 @@ with tab5:
             st.markdown(narrative)
             
     with col_bot2:
-        st.subheader("💬 Pregúntale a los Datos")
-        question_type = st.selectbox("¿Qué quieres saber?", 
-                                     ["¿Qué país es más rico?", 
-                                      "¿Qué país es más corrupto?", 
-                                      "¿Quién gasta más en ejército?",
-                                      "¿Cuál es el país más democrático?"])
+        st.subheader("💬 Chat con tus Datos")
         
-        if df.empty:
-            st.error("No hay datos para analizar.")
-        else:
-            # Función auxiliar para encontrar el registro más reciente y válido
-            def get_latest_leader(metric_col, maximize=True):
-                # 1. Eliminar nulos de esa métrica
-                valid_df = df.dropna(subset=[metric_col])
-                if valid_df.empty:
-                    return None
-                
-                # 2. Encontrar el año más reciente con datos
-                last_valid_year = valid_df['year'].max()
-                latest_data = valid_df[valid_df['year'] == last_valid_year]
-                
-                # 3. Obtener el max o min
-                if maximize:
-                    return latest_data.loc[latest_data[metric_col].idxmax()]
-                else:
-                    return latest_data.loc[latest_data[metric_col].idxmin()]
+        # Inicializar historial de chat
+        if "messages" not in st.session_state:
+            st.session_state.messages = []
+            # Mensaje de bienvenida
+            st.session_state.messages.append({"role": "assistant", "content": "¡Hola! Soy tu asistente de Big Data. Pregúntame cosas como: '¿Cuál es el país más rico?', '¿Promedio de esperanza de vida?' o 'Dime sobre Afganistán'."})
 
-            if "más rico" in question_type:
-                top = get_latest_leader('gle_cgdpc', maximize=True)
-                if top is not None:
-                    st.chat_message("assistant").write(f"Según los datos más recientes ({int(top['year'])}), el país más rico es **{top['cname']}** con un PIB per cápita de **${top['gle_cgdpc']:,.0f}**.")
-                else:
-                    st.warning("No hay datos suficientes de PIB.")
-            
-            elif "más corrupto" in question_type:
-                # V-Dem: Menor valor = Más corrupto
-                top = get_latest_leader('vdem_corr', maximize=False)
-                if top is not None:
-                    st.chat_message("assistant").write(f"El país con mayor percepción de corrupción (menor índice V-Dem, {int(top['year'])}) es **{top['cname']}** (Score: {top['vdem_corr']:.2f}).")
-                else:
-                    st.warning("No hay datos suficientes de Corrupción.")
+        # Mostrar mensajes previos
+        for message in st.session_state.messages:
+            with st.chat_message(message["role"]):
+                st.markdown(message["content"])
 
-            elif "gasta más" in question_type:
-                top = get_latest_leader('wdi_expmil', maximize=True)
-                if top is not None:
-                    st.chat_message("assistant").write(f"El país con mayor gasto militar relativo ({int(top['year'])}) es **{top['cname']}**, invirtiendo un **{top['wdi_expmil']:.2f}%** de su riqueza en defensa.")
-                else:
-                    st.warning("No hay datos suficientes de Gasto Militar.")
+        # Input de chat
+        if prompt := st.chat_input("Escribe tu pregunta aquí..."):
+            # Guardar y mostrar mensaje usuario
+            st.session_state.messages.append({"role": "user", "content": prompt})
+            with st.chat_message("user"):
+                st.markdown(prompt)
+
+            # Lógica del Bot (Keyword Matching Local)
+            prompt_lower = prompt.lower()
+            response = "No estoy seguro de entender eso. Prueba preguntando por 'PIB', 'militar', 'democracia' o un país específico."
             
-            elif "más democrático" in question_type:
-                 top = get_latest_leader('p_polity2', maximize=True)
-                 if top is not None:
-                    st.chat_message("assistant").write(f"El líder democrático en la región ({int(top['year'])}) es **{top['cname']}** con un puntaje Polity IV de **{top['p_polity2']}/10**.")
+            # 1. Preguntas sobre Máximos
+            if "rico" in prompt_lower or "pib" in prompt_lower and "mayor" in prompt_lower:
+                # Recuperamos el último año con datos válidos
+                valid_df = df.dropna(subset=['gle_cgdpc'])
+                if not valid_df.empty:
+                    last_valid_year = valid_df['year'].max()
+                    df_last_valid = valid_df[valid_df['year'] == last_valid_year]
+                    max_country = df_last_valid.loc[df_last_valid['gle_cgdpc'].idxmax()]
+                    response = f"El país más rico (mayor PIB per cápita, {int(last_valid_year)}) es **{max_country['cname']}** con ${max_country['gle_cgdpc']:,.2f}."
+                else:
+                    response = "No hay datos suficientes de PIB."
+            
+            elif "militar" in prompt_lower and ("mayor" in prompt_lower or "más" in prompt_lower):
+                 valid_df = df.dropna(subset=['wdi_expmil'])
+                 if not valid_df.empty:
+                     last_valid_year = valid_df['year'].max()
+                     df_last_valid = valid_df[valid_df['year'] == last_valid_year]
+                     max_mil = df_last_valid.loc[df_last_valid['wdi_expmil'].idxmax()]
+                     response = f"El país que más gasta en ejército ({int(last_valid_year)}) es **{max_mil['cname']}** con un **{max_mil['wdi_expmil']:.2f}%** de su PIB."
                  else:
-                    st.warning("No hay datos suficientes de Democracia.")
+                     response = "No hay datos suficientes de Gasto Militar."
+
+            # 2. Preguntas sobre Promedios
+            elif "promedio" in prompt_lower:
+                if "vida" in prompt_lower:
+                    avg_life = df['wdi_lifexp'].mean()
+                    response = f"La esperanza de vida promedio en la región (histórico) es de **{avg_life:.1f} años**."
+                elif "pib" in prompt_lower:
+                    avg_gdp = df['gle_cgdpc'].mean()
+                    response = f"El PIB per cápita promedio histórico es de **${avg_gdp:,.2f}**."
+
+            # 3. Preguntas sobre Países Específicos
+            elif any(country.lower() in prompt_lower for country in df['cname'].unique().tolist()):
+                for country in df['cname'].unique():
+                    if country.lower() in prompt_lower:
+                        # Obtener datos más recientes de ese país
+                        country_df = df[df['cname'] == country].sort_values(by='year', ascending=False)
+                        if not country_df.empty:
+                            row = country_df.iloc[0]
+                            response = (f"**Datos más recientes de {country} ({int(row['year'])}):**\n"
+                                        f"- 💰 PIB: ${row['gle_cgdpc']:,.0f}\n"
+                                        f"- 🛡️ Gasto Militar: {row['wdi_expmil']:.2f}%\n"
+                                        f"- 🩺 Esperanza Vida: {row['wdi_lifexp']:.1f} años")
+                        else:
+                            response = f"No tengo datos para {country}."
+                        break
+            
+            # 4. Easter Eggs
+            elif "hola" in prompt_lower:
+                response = "¡Hola! Listo para analizar el Gran Juego."
+            elif "gracias" in prompt_lower:
+                response = "¡De nada! ¿Alguna otra consulta?"
+
+            # Simular comportamiento "AI Realista"
+            import time
+            import random
+            
+            with st.chat_message("assistant"):
+                message_placeholder = st.empty()
+                
+                # 1. Efecto "Pensando..." (Delay inicial)
+                message_placeholder.markdown("_(Analizando datos...)_ 🧠")
+                time.sleep(random.uniform(1.2, 2.5)) 
+                
+                # 2. Efecto "Escribiendo" más natural
+                full_response = ""
+                for chunk in response.split():
+                    full_response += chunk + " "
+                    # Velocidad variable para parecer más humano/bot generativo
+                    time.sleep(random.uniform(0.05, 0.2)) 
+                    message_placeholder.markdown(full_response + "▌")
+                
+                message_placeholder.markdown(full_response)
+            
+            st.session_state.messages.append({"role": "assistant", "content": full_response})

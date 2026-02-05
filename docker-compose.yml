@@ -56,7 +56,9 @@ services:
 
   # JupyterLab con Spark (TF se instalará manualmente/runtime por ahora)
   jupyter-lab:
-    image: jupyter/pyspark-notebook:latest
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
     container_name: jupyter_lab
     ports:
       - "8888:8888" # JupyterLab

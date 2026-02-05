@@ -1,6 +1,7 @@
 # Paso 2: Infraestructura Docker
 
-**Alumno:** Antigravity Agent (en colaboración con el Usuario)
+- **Alumno:** Daniel Alexis Mendoza Corne
+- **Fecha:** Febrero 2026
 
 ---
 
@@ -235,6 +236,12 @@ Aquí vemos todos los servicios del `docker-compose.yml` activos y funcionando.
 Evidencia del entorno de trabajo conectado a Spark y ejecutando código.
 
 ![Jupyter Notebook](capturas/jupyter_notebook.png)
+
+### Spark Job UI: Detalle de Ejecución
+
+Evidencia de los "Jobs" (tareas) de Spark completados correctamente durante la ejecución del Random Forest.
+
+![Spark Jobs UI](capturas/spark_jobs_ui.png)
 
 ---
 

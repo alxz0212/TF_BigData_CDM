@@ -11,12 +11,15 @@ Completa los archivos en este orden. Cada numero indica la secuencia:
 
 | Orden | Archivo                    | Que haces                                   |
 | ----- | -------------------------- | ------------------------------------------- |
-| **1** | `README.md` (este archivo) | Defines tu pregunta, paises y variables     |
-| **2** | `02_INFRAESTRUCTURA.md`    | Construyes y explicas tu docker-compose.yml |
-| **3** | `src/pipeline.py`          | Escribes tu ETL + analisis con Spark        |
-| **4** | `03_RESULTADOS.md`         | Presentas graficos e interpretas resultados |
-| **5** | `04_REFLEXION_IA.md`       | Documentas tu proceso y pegas tus prompts   |
-| **6** | `05_RESPUESTAS.md`         | Respondes 4 preguntas de comprension        |
+| **1** | `01_README.md` (este archivo) | Defines tu pregunta, paises y variables     |
+| **2** | `02_INFRAESTRUCTURA.md`       | Construyes y explicas tu docker-compose.yml |
+| **3** | `src/verify_spark.py`         | Verificas la conexión con Spark             |
+| **4** | `src/pipeline.py`             | ETL: Limpieza y Transformación en Parquet   |
+| **5** | `src/analysis.py`             | Análisis con ML (Random Forest) en Spark    |
+| **6** | `03_RESULTADOS.md`            | Presentas graficos e interpretas resultados |
+| **7** | `04_REFLEXION_IA.md`          | Documentas tu proceso y pegas tus prompts   |
+| **8** | `05_EXPLICACION_CODIGO.md`    | Catálogo técnico de todos los scripts       |
+| **9** | `06_RESPUESTAS.md`            | Respondes 4 preguntas de comprension        |
 
 Los archivos `docker-compose.yml`, `requirements.txt` y `.gitignore` los completas conforme avanzas.
 
@@ -84,12 +87,15 @@ docker compose up -d
 # Paso 2: Verificar que todo funciona
 docker ps
 
-# Paso 3: Ejecutar pipeline ETL (Procesamiento de Datos)
+# Paso 3: Descargar Datos (Automático)
+docker exec jupyter_lab python /home/jovyan/work/src/download_data.py
+
+# Paso 4: Ejecutar pipeline ETL (Procesamiento de Datos)
 # Nota: Ejecutar desde dentro del contenedor o tener Spark local.
 # Si usas Docker (recomendado):
 docker exec jupyter_lab python /home/jovyan/work/src/pipeline.py
 
-# Paso 4: Ejecutar Análisis y Generar Gráficos
+# Paso 5: Ejecutar Análisis y Generar Gráficos
 docker exec jupyter_lab spark-submit /home/jovyan/work/src/analysis.py
 ```
 
@@ -100,10 +106,13 @@ El análisis generará los gráficos en la carpeta `notebooks/` y el reporte fin
 ## Estructura del Proyecto
 
 ```text
+├── 01_README.md                # Este archivo
 ├── 02_INFRAESTRUCTURA.md       # Documentación de Docker y Servicios
 ├── 03_RESULTADOS.md            # Informe final con gráficos e interpretación
 ├── 04_REFLEXION_IA.md          # Bitácora de aprendizaje y Prompts
-├── README.md                   # Este archivo
+├── 05_EXPLICACION_CODIGO.md    # Catálogo y explicación técnica de scripts
+├── 06_RESPUESTAS.md            # Preguntas de comprensión
+├── INSTRUCCIONES_DESPLIEGUE.txt# Cheat Sheet con comandos para ejecutar
 ├── capturas/                   # Imágenes de evidencia
 │   └── ...
 ├── data/
@@ -114,12 +123,16 @@ El análisis generará los gráficos en la carpeta `notebooks/` y el reporte fin
 ├── docker-compose.yml          # Orquestación de servicios
 ├── jars/                       # Drivers JDBC (Postgres)
 ├── notebooks/
-│   ├── 01_analisis_asia_central.ipynb # Notebook exploratorio inicial
+│   ├── 01_analisis_asia_central.ipynb # Notebook exploratorio
 │   ├── 02_analisis_gran_juego.ipynb   # Notebook principal del análisis
 │   ├── grafico_correlacion.png
 │   └── grafico_feature_importance.png
 ├── requirements.txt            # Dependencias Python
 └── src/
     ├── analysis.py             # Script de análisis ML (Spark-Submit)
-    └── pipeline.py             # Script ETL (Limpieza y Transformación)
+    ├── app_streamlit.py        # Dashboard Interactivo Web
+    ├── download_data.py        # Script de descarga automática
+    ├── ingest_data.py          # Script de ingestión a Postgres (Legacy)
+    ├── pipeline.py             # Script ETL (Limpieza y Transformación)
+    └── verify_spark.py         # Test de conectividad Spark
 ```

@@ -111,11 +111,11 @@ Selección basada en el contexto del "Gran Juego" y la influencia post-soviétic
 1.  Ejecutar el script: `python src/pipeline.py`.
 2.  Verificar la generación de `data/processed/qog_great_game.parquet`.
 
-## Etapa 4: Análisis Avanzado y ML (Bloque C)
+## Etapa 4: Análisis Avanzado y ML (Spark ML)
 
 ### Objetivo
 
-Responder la pregunta de investigación mediante visualización de datos y un modelo de Machine Learning (**Random Forest**) para determinar la importancia de los factores geopolíticos vs democráticos en la economía.
+Responder la pregunta de investigación mediante visualización de datos y un modelo de Machine Learning (**Random Forest**) utilizando **Spark MLlib** (en lugar de TensorFlow) para determinar la importancia de los factores geopolíticos vs democráticos en la economía.
 
 ### Pregunta Refinada
 
@@ -127,13 +127,13 @@ Responder la pregunta de investigación mediante visualización de datos y un mo
 2.  **Preparación ML**:
     - `VectorAssembler` para unificar features: `wdi_expmil`, `p_polity2`, `vdem_corr`, `wdi_lifexp`.
     - Target: `gle_cgdpc`.
-3.  **Modelado**: Entrenar `RandomForestRegressor`.
+3.  **Modelado**: Entrenar `RandomForestRegressor` con Spark ML.
 4.  **Interpretación**: Extraer `featureImportances` y visualizar qué variable tiene mayor peso.
 
 ### Verificación
 
-1.  Ejecutar el notebook `notebooks/02_analisis_gran_juego.ipynb`.
-2.  Obtener el gráfico de Importancia de Variables.
+1.  Ejecutar el script: `docker exec jupyter_lab spark-submit /home/jovyan/work/src/analysis.py`
+2.  Obtener el gráfico de Importancia de Variables en `notebooks/`.
 
 ## Etapa 5: Reflexión IA (Bloque D)
 

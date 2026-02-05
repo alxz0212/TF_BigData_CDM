@@ -1,4 +1,4 @@
-pyspark # Procesamiento distribuido y Big Data
+pyspark==3.5.0 # Procesamiento distribuido y Big Data
 pandas # Manipulación y análisis de datos estructurados
 matplotlib # Librería base para visualización de datos estática
 seaborn # Visualización estadística avanzada basada en Matplotlib

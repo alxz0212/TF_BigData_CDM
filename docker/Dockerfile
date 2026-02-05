@@ -9,13 +9,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 USER ${NB_UID}
 
-# Install TensorFlow and other data science libraries
-RUN pip install --quiet --no-cache-dir \
-    tensorflow \
-    psycopg2-binary \
-    matplotlib \
-    pandas \
-    seaborn
+# Copy requirements.txt
+COPY requirements.txt /tmp/
+
+# Install dependencies from requirements.txt
+RUN pip install --quiet --no-cache-dir -r /tmp/requirements.txt
 
 # Environment variables for Spark
 ENV SPARK_OPTS="--driver-java-options=-Dlog4j.logLevel=info"

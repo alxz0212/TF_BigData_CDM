@@ -83,6 +83,10 @@ def main():
     except Exception as e:
         print(f"Error en ML: {e}")
         
+    print("⏳ PAUSA: Tienes 60 segundos para revisar http://localhost:4040 antes de que se apague...")
+    import time
+    time.sleep(60)
+    
     spark.stop()
     print("Análisis completado.")
 
