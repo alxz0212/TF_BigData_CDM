@@ -114,7 +114,8 @@ El análisis generará los gráficos en la carpeta `notebooks/` y el reporte fin
 ├── docker-compose.yml          # Orquestación de servicios
 ├── jars/                       # Drivers JDBC (Postgres)
 ├── notebooks/
-│   ├── 02_analisis_gran_juego.ipynb # Notebook principal del análisis
+│   ├── 01_analisis_asia_central.ipynb # Notebook exploratorio inicial
+│   ├── 02_analisis_gran_juego.ipynb   # Notebook principal del análisis
 │   ├── grafico_correlacion.png
 │   └── grafico_feature_importance.png
 ├── requirements.txt            # Dependencias Python
