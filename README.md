@@ -94,3 +94,31 @@ docker exec jupyter_lab spark-submit /home/jovyan/work/src/analysis.py
 ```
 
 El análisis generará los gráficos en la carpeta `notebooks/` y el reporte final está en `03_RESULTADOS.md`.
+
+---
+
+## Estructura del Proyecto
+
+```text
+├── 02_INFRAESTRUCTURA.md       # Documentación de Docker y Servicios
+├── 03_RESULTADOS.md            # Informe final con gráficos e interpretación
+├── 04_REFLEXION_IA.md          # Bitácora de aprendizaje y Prompts
+├── README.md                   # Este archivo
+├── capturas/                   # Imágenes de evidencia
+│   └── ...
+├── data/
+│   ├── processed/              # Datos transformados (Parquet)
+│   └── raw/                    # Dataset original (CSV)
+├── docker/
+│   └── Dockerfile              # Definición de la imagen Jupyter+Spark
+├── docker-compose.yml          # Orquestación de servicios
+├── jars/                       # Drivers JDBC (Postgres)
+├── notebooks/
+│   ├── 02_analisis_gran_juego.ipynb # Notebook principal del análisis
+│   ├── grafico_correlacion.png
+│   └── grafico_feature_importance.png
+├── requirements.txt            # Dependencias Python
+└── src/
+    ├── analysis.py             # Script de análisis ML (Spark-Submit)
+    └── pipeline.py             # Script ETL (Limpieza y Transformación)
+```
