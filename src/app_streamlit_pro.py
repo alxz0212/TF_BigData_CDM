@@ -90,6 +90,31 @@ st.markdown("""
     /* Ocultar elementos default de Streamlit */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
+
+    /* Optimización para Impresión (PDF) */
+    @media print {
+        /* Ocultar elementos de UI */
+        [data-testid="stSidebar"], 
+        header, 
+        footer, 
+        .stDeployButton {
+            display: none !important;
+        }
+        /* Fondo blanco para ahorrar tinta */
+        .stApp, .stApp > header {
+            background-color: white !important;
+            color: black !important;
+        }
+        /* Forzar color negro en textos */
+        h1, h2, h3, p, div, span, label {
+            color: black !important;
+        }
+        /* Ajustar ancho */
+        .main .block-container {
+            max-width: 100% !important;
+            padding: 0 !important;
+        }
+    }
 </style>
 """, unsafe_allow_html=True)
 

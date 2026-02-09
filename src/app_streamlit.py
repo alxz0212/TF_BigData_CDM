@@ -26,6 +26,26 @@ st.markdown("""
     .stApp {
         background-image: linear-gradient(to right top, #ffffff, #f8f9fa, #f1f3f5, #e9ecef, #dee2e6);
     }
+    
+    /* Optimización para Impresión (PDF) */
+    @media print {
+        /* Ocultar elementos de UI no deseados */
+        [data-testid="stSidebar"], 
+        header, 
+        footer, 
+        .stDeployButton {
+            display: none !important;
+        }
+        /* Ajustar contenido al ancho completo */
+        .main .block-container {
+            max-width: 100% !important;
+            padding: 1rem !important;
+        }
+        /* Evitar cortes feos en gráficos */
+        .stPlotlyChart {
+            break-inside: avoid;
+        }
+    }
 </style>
 """, unsafe_allow_html=True)
 
