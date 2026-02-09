@@ -140,3 +140,30 @@ graph TD
     Script4 --> E
     Script5 --> F
 ```
+
+---
+
+## 4. DevOps y Documentación 📚
+
+Para desplegar este sitio web, utilizamos dos archivos clave que a menudo se confunden pero tienen propósitos muy distintos:
+
+### `mkdocs.yml` (El Cerebro 🧠)
+**Ubicación:** Raíz del proyecto.
+**Función:** Configuración del Sitio Web.
+**Qué hace:**
+- Define el título del sitio, el autor y el tema visual ("Material").
+- Estructura el menú de navegación lateral.
+- Activa plugins y extensiones (como Mermaid para los gráficos).
+- **Es el archivo que tú editas** cuando quieres cambiar el contenido, el orden de las páginas o el color del sitio.
+
+### `.github/workflows/deploy_docs.yml` (El Obrero 👷)
+**Ubicación:** `.github/workflows/` (antes llamado `mkdocs.yml`).
+**Función:** Automatización del Despliegue (CI/CD).
+**Qué hace:**
+- Es un script de instrucciones para los servidores de GitHub (GitHub Actions).
+- Cada vez que haces un cambio (`git push`), este archivo le dice a GitHub:
+    1. "Instala Python y MkDocs".
+    2. "Instala los plugins necesarios (Material, Mermaid)".
+    3. "Construye la página web estática".
+    4. "Publicala en internet (GitHub Pages)".
+- **No necesitas editarlo casi nunca**, salvo que cambies la forma de desplegar el sitio.
