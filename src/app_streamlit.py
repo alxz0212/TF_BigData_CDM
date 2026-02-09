@@ -81,43 +81,14 @@ audio_path = "/home/jovyan/work/src/static/spy_glass.mp3"
 
 # Leer el archivo de audio
 import base64
-try:
-    if os.path.exists(audio_path):
-        with open(audio_path, "rb") as audio_file:
-            audio_bytes = audio_file.read()
-        audio_base64 = base64.b64encode(audio_bytes).decode()
-        
-        # HTML/JS personalizado para intentar forzar el autoplay y persistir
-        # Nota: Los navegadores modernos bloquean el audio automático si no hay interacción previa.
-        audio_html = f"""
-            <audio id="bg-music" autoplay loop>
-                <source src="data:audio/mp3;base64,{audio_base64}" type="audio/mp3">
-            </audio>
-            <script>
-                var audio = document.getElementById("bg-music");
-                audio.volume = 0.2;  // Volumen bajito para no asustar
-                
-                // Intentar reproducir automáticamente
-                var playPromise = audio.play();
-                
-                if (playPromise !== undefined) {{
-                    playPromise.then(_ => {{
-                        // Autoplay started!
-                        console.log("Audio reproduciéndose");
-                    }}).catch(error => {{
-                        // Autoplay was prevented.
-                        console.log("Autoplay bloqueado por el navegador: " + error);
-                    }});
-                }}
-            </script>
-            <div style="font-size: 0.8em; color: gray;">
-                🎧 <i>Spy Glass</i> (Kevin MacLeod) <br>
-                <small>Si no suena, es posible que tu navegador lo haya bloqueado por defecto.</small>
-            </div>
-        """
-        st.sidebar.markdown(audio_html, unsafe_allow_html=True)
-    else:
-        st.sidebar.error("No se encontró el archivo de audio.")
+        # Usamos el reproductor nativo de Streamlit
+        if os.path.exists(audio_path):
+            with open(audio_path, "rb") as audio_file:
+                audio_bytes = audio_file.read()
+            st.sidebar.audio(audio_bytes, format="audio/mp3", start_time=0)
+            st.sidebar.caption("🎧 *Spy Glass* by Kevin MacLeod (incompetech.com). Licensed under CC BY 4.0")
+        else:
+            st.sidebar.error("No se encontró el archivo de audio.")
 except Exception as e:
     st.sidebar.error(f"Error al cargar audio: {e}")
 
