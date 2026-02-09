@@ -38,6 +38,14 @@ A través de un pipeline automatizado, se procesaron décadas de datos históric
 
 ---
 
+<div align="center">
+  <h3>🎥 Demo: El Gran Juego en Acción</h3>
+  <video src="capturas/Gran Juego Dashboard.mp4" width="100%" controls autoplay loop muted style="border-radius: 10px; box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); border: 1px solid #334155;"></video>
+  <p><i>Tablero interactivo con Globo 3D, Análisis Comparativo y Simulador de IA.</i></p>
+</div>
+
+---
+
 ## 🗺️ Estructura de Navegación
 
 | 🧭 Sección | 📝 Descripción |

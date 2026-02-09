@@ -172,3 +172,15 @@ Si ya realizaste la instalación inicial y solo quieres volver a arrancar el pro
        (O usa 'app_streamlit.py' para la versión clásica)
 
     d) Ir a: http://localhost:8501
+
+--------------------------------------------------------------------------------
+PASO EXTRA: VER DOCUMENTACIÓN WEB EN LOCAL (MKDOCS) 📚
+--------------------------------------------------------------------------------
+Si quieres ver cómo quedó la página web antes de subirla a GitHub.
+
+1. Abre otra terminal en la carpeta del proyecto.
+2. Ejecuta:
+   > python -m mkdocs serve
+
+3. Accede a: http://127.0.0.1:8000
+   (Tus cambios se verán en tiempo real)
