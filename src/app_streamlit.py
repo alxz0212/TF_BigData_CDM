@@ -87,7 +87,8 @@ def check_password():
     col1, col2, col3 = st.columns([1, 1, 1])
     
     with col2:
-        st.markdown('<div class="login-container">', unsafe_allow_html=True)
+        # st.markdown('<div class="login-container">', unsafe_allow_html=True)
+        st.markdown("<br><br><br><br><br>", unsafe_allow_html=True) # Espacio para bajar los inputs
         st.text_input("Usuario", key="username", value="Z2456962S", placeholder="Nombre de usuario")
         st.text_input("Contraseña", type="password", key="password", value="123456A", placeholder="Contraseña")
         
@@ -95,7 +96,7 @@ def check_password():
              if not st.session_state["password_correct"]:
                 st.error("Usuario o contraseña incorrectos")
         
-        st.markdown('</div>', unsafe_allow_html=True)
+        # st.markdown('</div>', unsafe_allow_html=True)
 
     return False
 
