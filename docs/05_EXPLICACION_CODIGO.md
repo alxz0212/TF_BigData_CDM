@@ -149,6 +149,16 @@ graph TD
     Script5 --> F
 ```
 
+> [!NOTE]
+> **Conclusión del Flujo de Datos:**  
+> Como se observa en el diagrama, el proyecto sigue una arquitectura lineal de Big Data moderna:
+>
+> 1.  **Ingesta:** Los datos se capturan automáticamente de internet (`download_data.py`).
+> 2.  **Procesamiento:** Se limpian y estructuran en Spark (`pipeline.py`), guardándose en formato eficiente **Parquet**.
+> 3.  **Consumo:** A partir del dato limpio, se derivan tres productos finales: Análisis ML (`analysis.py`), Validación Estadística (`econometric_analysis.py`) y Visualización Interactiva (`app_streamlit_pro.py`).
+>
+> Esta estructura modular asegura que si cambiamos la fuente de datos, solo tocamos el script de _Ingesta_, sin romper el Dashboard final.
+
 ---
 
 ## 4. DevOps y Documentación 📚
