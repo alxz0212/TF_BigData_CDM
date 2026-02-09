@@ -1,4 +1,6 @@
 import streamlit as st
+import streamlit.components.v1 as components
+import re
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -236,9 +238,6 @@ with tab3:
     st.plotly_chart(fig_box, use_container_width=True)
     st.caption("ℹ️ **Interpretación Regional:** Este gráfico de caja (Boxplot) compara la dispersión de la riqueza económica. Permite identificar qué subregión tiene mayor PIB mediano y qué tan desigual es el crecimiento entre los países de cada zona.")
 
-# -----------------------------------------------------------------------------
-# Tab 4: Documentación del Proyecto
-# -----------------------------------------------------------------------------
 def read_markdown_file(filename):
     path = f"/home/jovyan/work/docs/{filename}"
     try:
@@ -246,6 +245,41 @@ def read_markdown_file(filename):
             return f.read()
     except Exception as e:
         return f"Error al leer el archivo {filename}: {e}"
+
+def render_markdown_with_mermaid(markdown_text):
+    """
+    Renderiza markdown normal y bloques mermaid usando JS.
+    """
+    if "```mermaid" not in markdown_text:
+        st.markdown(markdown_text, unsafe_allow_html=True)
+        return
+
+    # Patrón para encontrar bloques mermaid
+    # Usamos re.split para separar el texto en [texto, mermaid_code, texto, mermaid_code...]
+    parts = re.split(r'```mermaid\n(.*?)\n```', markdown_text, flags=re.DOTALL)
+    
+    for i, part in enumerate(parts):
+        if i % 2 == 0:
+            # Es markdown normal
+            if part.strip():
+                st.markdown(part, unsafe_allow_html=True)
+        else:
+            # Es código mermaid
+            mermaid_code = part.strip()
+            if mermaid_code:
+                # Renderizar HTML con Mermaid.js
+                # Usamos un ID único para evitar conflictos si hay múltiples
+                
+                html_code = f"""
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+                    mermaid.initialize({{ startOnLoad: true }});
+                </script>
+                <div class="mermaid" style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center; border: 1px solid #ddd;">
+                    {mermaid_code}
+                </div>
+                """
+                components.html(html_code, height=500, scrolling=True)
 
 with tab4:
     st.header("📂 Documentación del Proyecto")
@@ -289,7 +323,7 @@ with tab4:
         else:
             file_content = video_html + file_content
 
-    st.markdown(file_content, unsafe_allow_html=True)
+    render_markdown_with_mermaid(file_content)
 
 # -----------------------------------------------------------------------------
 # Tab 5: Asistente IA (Algorithmic Analyst)
