@@ -7,6 +7,15 @@
 
 ---
 
+---
+
+## 🎥 Demostración
+
+**¿Quieres ver cómo quedó el Dashboard?**  
+👉 Mira el video en: [07_PROTOTIPO.md](07_PROTOTIPO.md)
+
+---
+
 ## Orden de trabajo
 
 Completa los archivos en este orden. Cada numero indica la secuencia:
@@ -23,6 +32,7 @@ Completa los archivos en este orden. Cada numero indica la secuencia:
 | **8**  | `04_REFLEXION_IA.md`          | Documentas tu proceso y pegas tus prompts   |
 | **9**  | `05_EXPLICACION_CODIGO.md`    | Catálogo técnico de todos los scripts       |
 | **10** | `06_RESPUESTAS.md`            | Respondes 4 preguntas de comprension        |
+| **11** | `07_PROTOTIPO.md`             | **Nuevo:** Video Demo del Dashboard         |
 
 Los archivos `docker-compose.yml`, `requirements.txt` y `.gitignore` los completas conforme avanzas.
 
@@ -121,6 +131,7 @@ El análisis generará los gráficos en la carpeta `notebooks/` y el reporte fin
 ├── 04_REFLEXION_IA.md          # Bitácora de aprendizaje y Prompts
 ├── 05_EXPLICACION_CODIGO.md    # Catálogo y explicación técnica de scripts
 ├── 06_RESPUESTAS.md            # Preguntas de comprensión
+├── 07_PROTOTIPO.md             # Video Demo del proyecto (Prototipo)
 ├── INSTRUCCIONES_DESPLIEGUE.txt# Cheat Sheet con comandos para ejecutar
 ├── capturas/                   # Imágenes de evidencia
 ├── data/
