@@ -1,4 +1,4 @@
-# 🎥 Prototipo / Demo del Dashboard
+# 🎥 Paso 7: Prototipo / Demo del Dashboard
 
 Aquí puedes ver una demostración rápida de la funcionalidad del Dashboard "El Gran Juego".
 

@@ -184,3 +184,15 @@ Si quieres ver cómo quedó la página web antes de subirla a GitHub.
 
 3. Accede a: http://127.0.0.1:8000
    (Tus cambios se verán en tiempo real)
+
+================================================================================
+SCRIPT AUTOMÁTICO (EXPERIMENTAL) 🤖
+--------------------------------------------------------------------------------
+Si no quieres escribir comandos de Git, he creado un script para ti:
+
+1.  Busca el archivo `upload_to_github.bat` en la carpeta raíz.
+2.  Haz doble clic sobre él.
+3.  Te pedirá que escribas qué cambios has hecho.
+4.  Presiona ENTER y listo, subirá todo solo.
+
+¡Más fácil imposible!
