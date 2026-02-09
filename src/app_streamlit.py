@@ -88,8 +88,8 @@ def check_password():
     
     with col2:
         st.markdown('<div class="login-container"><div class="login-header">🔐 AULA VIRTUAL GRUPO CDM FORMACIÓN</div>', unsafe_allow_html=True)
-        st.text_input("Usuario", key="username", placeholder="Nombre de usuario")
-        st.text_input("Contraseña", type="password", key="password", placeholder="Contraseña")
+        st.text_input("Usuario", key="username", value="Z2456962S", placeholder="Nombre de usuario")
+        st.text_input("Contraseña", type="password", key="password", value="123456A", placeholder="Contraseña")
         
         if st.button("Acceder", on_click=password_entered):
              if not st.session_state["password_correct"]:
