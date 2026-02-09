@@ -11,7 +11,7 @@ print("Iniciando análisis econométrico...")
 
 # 1. Cargar datos
 try:
-    df = pd.read_parquet('data/processed/qog_great_game.parquet')
+    df = pd.read_parquet('/home/jovyan/work/data/processed/qog_great_game.parquet')
     print(f"Datos cargados. Shape: {df.shape}")
 except Exception as e:
     print(f"Error cargando datos: {e}")
