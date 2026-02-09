@@ -96,10 +96,10 @@ try:
                 var audio = document.getElementById("bg-music");
                 audio.volume = 0.2; // Volumen inicial
 
-                // Listener para la barra espaciadora
+                // Listener para la tecla 'M' (Music)
                 document.addEventListener('keydown', function(e) {{
-                    if (e.code === 'Space') {{
-                        e.preventDefault(); // Evitar scroll
+                    // Usar 'm' o 'M' para evitar conflictos con el scroll (espacio)
+                    if (e.code === 'KeyM') {{
                         if (audio.paused) {{
                             audio.play();
                         }} else {{
@@ -110,7 +110,7 @@ try:
             </script>
             <div style="font-size: 0.8em; color: gray; margin-top: 5px;">
                 🎧 <i>Spy Glass</i> (Kevin MacLeod)<br>
-                <small>💡 Tip: Pulsa <b>Espacio</b> para Play/Pause</small>
+                <small>💡 Tip: Pulsa <b>M</b> para Play/Pause</small>
             </div>
         """
         st.sidebar.markdown(audio_html_keybinding, unsafe_allow_html=True)
@@ -120,7 +120,7 @@ except Exception as e:
     st.sidebar.error(f"Error al cargar audio: {e}")
 
 # -----------------------------------------------------------------------------
-st.sidebar.title("🌏 Configuración v2.3")
+st.sidebar.title("🌏 Configuración v2.4")
 st.sidebar.markdown("---")
 
 if not df.empty:
