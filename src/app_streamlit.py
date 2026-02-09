@@ -81,18 +81,46 @@ audio_path = "/home/jovyan/work/src/static/spy_glass.mp3"
 
 # Leer el archivo de audio
 try:
+    import base64
     if os.path.exists(audio_path):
         with open(audio_path, "rb") as audio_file:
             audio_bytes = audio_file.read()
-        st.sidebar.audio(audio_bytes, format="audio/mp3", start_time=0)
-        st.sidebar.caption("🎧 *Spy Glass* by Kevin MacLeod (incompetech.com). Licensed under CC BY 4.0")
+        audio_base64 = base64.b64encode(audio_bytes).decode()
+        
+        # HTML/JS con listener para la barra espaciadora
+        audio_html_keybinding = f"""
+            <audio id="bg-music" controls>
+                <source src="data:audio/mp3;base64,{audio_base64}" type="audio/mp3">
+            </audio>
+            <script>
+                var audio = document.getElementById("bg-music");
+                audio.volume = 0.2; // Volumen inicial
+
+                // Listener para la barra espaciadora
+                document.addEventListener('keydown', function(e) {{
+                    if (e.code === 'Space') {{
+                        e.preventDefault(); // Evitar scroll
+                        if (audio.paused) {{
+                            audio.play();
+                        }} else {{
+                            audio.pause();
+                        }}
+                    }}
+                }});
+            </script>
+            <div style="font-size: 0.8em; color: gray; margin-top: 5px;">
+                🎧 <i>Spy Glass</i> (Kevin MacLeod)<br>
+                <small>💡 Tip: Pulsa <b>Espacio</b> para Play/Pause</small>
+            </div>
+        """
+        st.sidebar.markdown(audio_html_keybinding, unsafe_allow_html=True)
     else:
         st.sidebar.error("No se encontró el archivo de audio.")
 except Exception as e:
     st.sidebar.error(f"Error al cargar audio: {e}")
 
 # -----------------------------------------------------------------------------
-st.sidebar.title("🌏 Configuración v2.2")
+st.sidebar.title("🌏 Configuración v2.3")
 st.sidebar.markdown("---")
 
 if not df.empty:
