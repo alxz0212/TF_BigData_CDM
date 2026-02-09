@@ -13,6 +13,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+# Nota: Streamlit sirve archivos static automáticamente si existen en la carpeta 'static' junto al script.
 
 # Estilos CSS personalizados
 st.markdown("""
@@ -239,7 +240,7 @@ with tab3:
 # Tab 4: Documentación del Proyecto
 # -----------------------------------------------------------------------------
 def read_markdown_file(filename):
-    path = f"/home/jovyan/work/{filename}"
+    path = f"/home/jovyan/work/docs/{filename}"
     try:
         with open(path, "r", encoding="utf-8") as f:
             return f.read()
@@ -252,6 +253,7 @@ with tab4:
     
     docs = {
         "ℹ️ README (General)": "01_README.md",
+        "🎥 Prototipo / Demo": "07_PROTOTIPO.md",
         "🏗️ Infraestructura": "02_INFRAESTRUCTURA.md",
         "💻 Explicación Código": "05_EXPLICACION_CODIGO.md",
         "📊 Resultados y Análisis": "03_RESULTADOS.md",
@@ -265,6 +267,28 @@ with tab4:
     
     # Mostrar contenido del archivo seleccionado
     file_content = read_markdown_file(docs[selected_doc_name])
+    
+    # Inyectar video si es el PROTOTIPO (Para que se vea en el Dashboard)
+    if docs[selected_doc_name] == "07_PROTOTIPO.md":
+        # Usamos st.video nativo para evitar problemas de rutas HTML
+        # Streamlit resuelve mejor las rutas locales si le pasamos el path del archivo
+        # Usamos columnas para centrar y reducir el tamaño del video (Efecto "Zoom" al poner pantalla completa)
+        col_spacer1, col_vid, col_spacer2 = st.columns([1, 2, 1])
+        with col_vid:
+            st.video("static/dashboard_demo.mp4")
+        
+        # Eliminamos la inyección manual anterior para no duplicar
+        video_html = ""
+        # Reemplazar la imagen del GIF por el video real interactivo
+        # Buscamos el patrón markdown del GIF: ![...](capturas/dashboard_demo.gif)
+        # Si no lo encuentra, lo inserta al principio como fallback
+        if "dashboard_demo.gif" in file_content:
+            import re
+            # Reemplaza cualquier imagen que apunte al gif
+            file_content = re.sub(r'!\[.*?\]\(.*?dashboard_demo.gif\)', video_html, file_content)
+        else:
+            file_content = video_html + file_content
+
     st.markdown(file_content, unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------

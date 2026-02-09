@@ -78,10 +78,10 @@ PASO 6: LANZAR LA "SUPER WEB" (DASHBOARD) 🚀
 Inicia el servidor de Streamlit en segundo plano.
 
 Comando (Versión Clásica):
-> docker exec -d jupyter_lab streamlit run /home/jovyan/work/src/app_streamlit.py
+> docker exec -d -w /home/jovyan/work/src jupyter_lab streamlit run app_streamlit.py
 
 Comando (Versión PRO 3D) 🌟:
-> docker exec -d jupyter_lab streamlit run /home/jovyan/work/src/app_streamlit_pro.py
+> docker exec -d -w /home/jovyan/work/src jupyter_lab streamlit run app_streamlit_pro.py
 
 --------------------------------------------------------------------------------
 ACCESOS 🌐

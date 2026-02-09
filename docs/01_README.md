@@ -5,21 +5,23 @@
 
 ---
 
+---
+
 ## Orden de trabajo
 
 Completa los archivos en este orden. Cada numero indica la secuencia:
 
-| Orden | Archivo                    | Que haces                                   |
-| ----- | -------------------------- | ------------------------------------------- |
-| **1** | `01_README.md` (este archivo) | Defines tu pregunta, paises y variables     |
-| **2** | `02_INFRAESTRUCTURA.md`       | Construyes y explicas tu docker-compose.yml |
-| **3** | `src/verify_spark.py`         | Verificas la conexión con Spark             |
-| **4** | `src/pipeline.py`             | ETL: Limpieza y Transformación en Parquet   |
-| **5** | `src/analysis.py`             | Análisis con ML (Random Forest) en Spark    |
-| **6** | `src/econometric_analysis.py` | Análisis Econométrico (Test de Hausman)     |
-| **7** | `03_RESULTADOS.md`            | Presentas graficos e interpretas resultados |
-| **8** | `04_REFLEXION_IA.md`          | Documentas tu proceso y pegas tus prompts   |
-| **9** | `05_EXPLICACION_CODIGO.md`    | Catálogo técnico de todos los scripts       |
+| Orden  | Archivo                       | Que haces                                   |
+| ------ | ----------------------------- | ------------------------------------------- |
+| **1**  | `01_README.md` (este archivo) | Defines tu pregunta, paises y variables     |
+| **2**  | `02_INFRAESTRUCTURA.md`       | Construyes y explicas tu docker-compose.yml |
+| **3**  | `src/verify_spark.py`         | Verificas la conexión con Spark             |
+| **4**  | `src/pipeline.py`             | ETL: Limpieza y Transformación en Parquet   |
+| **5**  | `src/analysis.py`             | Análisis con ML (Random Forest) en Spark    |
+| **6**  | `src/econometric_analysis.py` | Análisis Econométrico (Test de Hausman)     |
+| **7**  | `03_RESULTADOS.md`            | Presentas graficos e interpretas resultados |
+| **8**  | `04_REFLEXION_IA.md`          | Documentas tu proceso y pegas tus prompts   |
+| **9**  | `05_EXPLICACION_CODIGO.md`    | Catálogo técnico de todos los scripts       |
 | **10** | `06_RESPUESTAS.md`            | Respondes 4 preguntas de comprension        |
 
 Los archivos `docker-compose.yml`, `requirements.txt` y `.gitignore` los completas conforme avanzas.
@@ -28,7 +30,7 @@ Los archivos `docker-compose.yml`, `requirements.txt` y `.gitignore` los complet
 
 ## Pregunta de investigacion
 
-"¿Son los factores de 'Poder Duro' (Gasto Militar) o de 'Poder Blando' (Democracia, Control de Corrupción) los que determinan el desarrollo económico en la periferia post-soviética?"
+"¿Qué influye más en la riqueza de los países ex-soviéticos: tener un ejército fuerte y gastar mucho en armas, o ser un país más democrático y con menos corrupción?"
 
 ---
 
