@@ -65,7 +65,17 @@ Comando:
 Esto generará las imágenes .png en la carpeta notebooks/.
 
 --------------------------------------------------------------------------------
-PASO 5: LANZAR LA "SUPER WEB" (DASHBOARD) 🚀
+PASO 5: EJECUTAR ANÁLISIS ECONOMÉTRICO (HAUSMAN) 📉
+--------------------------------------------------------------------------------
+Calcula Efectos Fijos vs Aleatorios para validar la hipótesis.
+
+Comando:
+> docker exec jupyter_lab python /home/jovyan/work/src/econometric_analysis.py
+
+Genera reporte en notebooks/hausman_results.txt.
+
+--------------------------------------------------------------------------------
+PASO 6: LANZAR LA "SUPER WEB" (DASHBOARD) 🚀
 --------------------------------------------------------------------------------
 Inicia el servidor de Streamlit en segundo plano.
 
@@ -154,6 +164,7 @@ Si ya realizaste la instalación inicial y solo quieres volver a arrancar el pro
     b) (Opcional) Si quieres regenerar datos/modelos (si cambiaste algo):
        > docker exec jupyter_lab python /home/jovyan/work/src/pipeline.py
        > docker exec jupyter_lab spark-submit /home/jovyan/work/src/analysis.py
+       > docker exec jupyter_lab python /home/jovyan/work/src/econometric_analysis.py
 
     c) Lanzar la Web (Dashboard):
        > docker exec -d jupyter_lab streamlit run /home/jovyan/work/src/app_streamlit.py
