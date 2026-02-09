@@ -3,6 +3,7 @@
 > **Un enfoque de Big Data para entender la economía y seguridad en Asia Central.**
 
 <div align="center">
+    <img src="capturas/profile.jpg" alt="Daniel Alexis Mendoza Corne" width="150" style="border-radius: 50%;"/>
     <h3>👤 Daniel Alexis Mendoza Corne</h3>
     <p>
         <b>Carrera:</b> Ingeniería Informática y de Sistemas  <br> 
