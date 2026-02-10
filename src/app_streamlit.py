@@ -100,6 +100,10 @@ def check_password():
 if not check_password():
     st.stop()
 
+# Feedback de carga inmediato (UX)
+loading_placeholder = st.empty()
+loading_placeholder.info("🔓 Acceso concedido. Cargando Dashboard y Modelos IA... Por favor, espere.")
+
 # Nota: Streamlit sirve archivos static automáticamente si existen en la carpeta 'static' junto al script.
 
 # Estilos CSS personalizados
@@ -153,6 +157,7 @@ def load_data():
         return pd.DataFrame()
 
 df = load_data()
+loading_placeholder.empty() # Eliminar mensaje de carga
 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
