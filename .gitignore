@@ -17,3 +17,9 @@ __pycache__/
 
 # Secretos y configuración local
 .env
+
+# Build artifacts
+site/
+
+# Large files
+Gran_Juego_Dashboard.mp4.mp4
