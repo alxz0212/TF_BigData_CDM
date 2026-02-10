@@ -170,52 +170,53 @@ loading_placeholder.empty() # Eliminar mensaje de carga
 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
-# 2. Sidebar y Filtros
-st.sidebar.markdown("---")
-st.sidebar.header("🎵 Música de Fondo")
+# -----------------------------------------------------------------------------
+# 2. Sidebar y Filtros (Música Deshabilitada por Rendimiento)
+# st.sidebar.markdown("---")
+# st.sidebar.header("🎵 Música de Fondo")
 
-# Ruta al archivo de audio
-audio_path = "/home/jovyan/work/src/static/spy_glass.mp3"
+# # Ruta al archivo de audio
+# audio_path = "/home/jovyan/work/src/static/spy_glass.mp3"
 
-# Leer el archivo de audio
-try:
-    import base64
-    if os.path.exists(audio_path):
-        with open(audio_path, "rb") as audio_file:
-            audio_bytes = audio_file.read()
-        audio_base64 = base64.b64encode(audio_bytes).decode()
+# # Leer el archivo de audio
+# try:
+#     import base64
+#     if os.path.exists(audio_path):
+#         with open(audio_path, "rb") as audio_file:
+#             audio_bytes = audio_file.read()
+#         audio_base64 = base64.b64encode(audio_bytes).decode()
         
-        # HTML/JS con listener para la barra espaciadora
-        audio_html_keybinding = f"""
-            <audio id="bg-music" controls>
-                <source src="data:audio/mp3;base64,{audio_base64}" type="audio/mp3">
-            </audio>
-            <script>
-                var audio = document.getElementById("bg-music");
-                audio.volume = 0.2; // Volumen inicial
+#         # HTML/JS con listener para la barra espaciadora
+#         audio_html_keybinding = f"""
+#             <audio id="bg-music" controls>
+#                 <source src="data:audio/mp3;base64,{audio_base64}" type="audio/mp3">
+#             </audio>
+#             <script>
+#                 var audio = document.getElementById("bg-music");
+#                 audio.volume = 0.2; // Volumen inicial
 
-                // Listener para la tecla 'M' (Music)
-                document.addEventListener('keydown', function(e) {{
-                    // Usar 'm' o 'M' para evitar conflictos con el scroll (espacio)
-                    if (e.code === 'KeyM') {{
-                        if (audio.paused) {{
-                            audio.play();
-                        }} else {{
-                            audio.pause();
-                        }}
-                    }}
-                }});
-            </script>
-            <div style="font-size: 0.8em; color: gray; margin-top: 5px;">
-                🎧 <i>Spy Glass</i> (Kevin MacLeod)<br>
-                <small>💡 Tip: Pulsa <b>M</b> para Play/Pause</small>
-            </div>
-        """
-        st.sidebar.markdown(audio_html_keybinding, unsafe_allow_html=True)
-    else:
-        st.sidebar.error("No se encontró el archivo de audio.")
-except Exception as e:
-    st.sidebar.error(f"Error al cargar audio: {e}")
+#                 // Listener para la tecla 'M' (Music)
+#                 document.addEventListener('keydown', function(e) {{
+#                     // Usar 'm' o 'M' para evitar conflictos con el scroll (espacio)
+#                     if (e.code === 'KeyM') {{
+#                         if (audio.paused) {{
+#                             audio.play();
+#                         }} else {{
+#                             audio.pause();
+#                         }}
+#                     }}
+#                 }});
+#             </script>
+#             <div style="font-size: 0.8em; color: gray; margin-top: 5px;">
+#                 🎧 <i>Spy Glass</i> (Kevin MacLeod)<br>
+#                 <small>💡 Tip: Pulsa <b>M</b> para Play/Pause</small>
+#             </div>
+#         """
+#         st.sidebar.markdown(audio_html_keybinding, unsafe_allow_html=True)
+#     else:
+#         st.sidebar.error("No se encontró el archivo de audio.")
+# except Exception as e:
+#     st.sidebar.error(f"Error al cargar audio: {e}")
 
 # -----------------------------------------------------------------------------
 st.sidebar.title("🌏 Configuración v2.4")

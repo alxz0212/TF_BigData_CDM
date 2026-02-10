@@ -1,9 +1,7 @@
 # Trabajo Final: El "Gran Juego" Post-Soviético
 
 **Alumno:** Daniel Alexis Mendoza Corne  
-**Fecha:** 04/02/2026
-
----
+**Fecha:** Febrero 2026
 
 ---
 
@@ -11,8 +9,7 @@
 
 ## 🎥 Demostración
 
-**¿Quieres ver cómo quedó el Dashboard?**  
-👉 Mira el video en: [07_PROTOTIPO.md](07_PROTOTIPO.md)
+**¿Quieres ver cómo quedó el Dashboard?** 👉 [Mira el video aqui](07_PROTOTIPO.md)
 
 ---
 
