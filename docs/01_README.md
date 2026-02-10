@@ -157,3 +157,11 @@ El análisis generará los gráficos en la carpeta `notebooks/` y el reporte fin
     ├── pipeline.py             # Script ETL (Limpieza y Transformación)
     └── verify_spark.py         # Test de conectividad Spark
 ```
+
+---
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia **MIT**. Consulta el archivo [LICENSE](../LICENSE) para más detalles.
+
+Copyright (c) 2026 **Alexis M.**
