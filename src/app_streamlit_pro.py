@@ -141,7 +141,17 @@ st.markdown("---")
 # Filtros Globales (Barra Superior disimulada)
 if not df.empty:
     years = sorted(df['year'].unique().astype(int))
-    selected_year = st.slider("TIMELINE SELECTOR", min_value=years[0], max_value=years[-1], value=years[-1], label_visibility="collapsed")
+    
+    # Lógica inteligente: Buscar el año más reciente que TENGA datos de PIB (evita nans iniciales)
+    df_valid = df.dropna(subset=['gle_cgdpc'])
+    if not df_valid.empty:
+        last_good_year = int(df_valid['year'].max())
+        # Intentar 2021, si no, el último con datos reales
+        initial_year = 2021 if (2021 in years and not df[df['year']==2021]['gle_cgdpc'].isna().all()) else last_good_year
+    else:
+        initial_year = years[-1]
+        
+    selected_year = st.slider("TIMELINE SELECTOR", min_value=years[0], max_value=years[-1], value=initial_year, label_visibility="collapsed")
     df_yr = df[df['year'] == selected_year]
 else:
     df_yr = pd.DataFrame()
@@ -149,10 +159,15 @@ else:
 # Métricas Globales (HUD)
 col1, col2, col3, col4, col5 = st.columns(5)
 if not df_yr.empty:
+    # Manejo de nulos para que no aparezca "nan" en la interfaz
+    avg_pib = df_yr['gle_cgdpc'].mean()
+    avg_mil = df_yr['wdi_expmil'].mean()
+    avg_dem = df_yr['p_polity2'].mean()
+    
     col1.metric("AÑO ACTIVO", f"{selected_year}", delta=None)
-    col2.metric("PIB REGIONAL AVG", f"${df_yr['gle_cgdpc'].mean():,.0f}", delta_color="normal")
-    col3.metric("GASTO MILITAR AVG", f"{df_yr['wdi_expmil'].mean():.2f}%", delta_color="normal")
-    col4.metric("NIVEL DEMOCRACIA", f"{df_yr['p_polity2'].mean():.1f}", help="Escala de -10 a 10")
+    col2.metric("PIB REGIONAL AVG", f"${avg_pib:,.0f}" if pd.notnull(avg_pib) else "N/D", delta_color="normal")
+    col3.metric("GASTO MILITAR AVG", f"{avg_mil:.2f}%" if pd.notnull(avg_mil) else "N/D", delta_color="normal")
+    col4.metric("NIVEL DEMOCRACIA", f"{avg_dem:.1f}" if pd.notnull(avg_dem) else "N/D", help="Escala de -10 a 10")
     col5.metric("PAÍSES TRACKEADOS", f"{len(df_yr['cname'].unique())}")
 
 
@@ -173,14 +188,21 @@ def render_geo_dashboard(df_target):
             map_data['lon'] = map_data['cname'].map(lambda x: COUNTRY_CONFIG.get(x, {}).get('lon', 0))
             map_data['flag'] = map_data['cname'].map(lambda x: COUNTRY_CONFIG.get(x, {}).get('flag', ''))
             
-            # Crear Globo 3D
-            fig_globe = px.scatter_geo(map_data, lat='lat', lon='lon',
-                                     color="wdi_expmil", size="gle_cgdpc",
-                                     hover_name="cname",
-                                     projection="orthographic", # Globo terráqueo
-                                     color_continuous_scale="Viridis",
-                                     title="",
-                                     height=600)
+            # Limpiar nulos para el gráfico (evita ValueError en Plotly)
+            map_data = map_data.dropna(subset=['gle_cgdpc', 'wdi_expmil'])
+            
+            if not map_data.empty:
+                # Crear Globo 3D
+                fig_globe = px.scatter_geo(map_data, lat='lat', lon='lon',
+                                         color="wdi_expmil", size="gle_cgdpc",
+                                         hover_name="cname",
+                                         projection="orthographic", # Globo terráqueo
+                                         color_continuous_scale="Viridis",
+                                         title="",
+                                         height=600)
+            else:
+                st.warning(f"⚠️ No hay datos completos de PIB/Militarización para el año {selected_year}.")
+                return
             
             # Customizar diseño "Dark"
             fig_globe.update_layout(
@@ -339,9 +361,44 @@ def render_ai_simulator(df_total):
             st.info(f"ℹ️ Con estos parámetros, el modelo predice una economía de **${pred:,.0f}** por habitante.")
 
 def render_dataset(df_total):
-    st.markdown("## 📄 DATA SOURCE")
+    st.markdown("## 📄 FUENTE DE DATOS (DATA SOURCE)")
+    
+    # Traducción de columnas para visualización
+    col_map = {
+        "cname": "País",
+        "year": "Año",
+        "gle_cgdpc": "PIB per Cápita",
+        "wdi_lifexp": "Esperanza de Vida",
+        "p_polity2": "Índice de Democracia",
+        "vdem_corr": "Control Corrupción",
+        "wdi_expmil": "Gasto Militar (% PIB)",
+        "wdi_pop": "Población Total",
+        "subregion": "Subregión"
+    }
+    
+    df_view = df_total.rename(columns=col_map)
+    
     with st.expander("Ver Dataset Completo", expanded=True):
-        st.dataframe(df_total.style.background_gradient(cmap="viridis"), height=600)
+        # Aplicar gradiente y formato de 2 decimales
+        st.dataframe(
+            df_view.style.background_gradient(cmap="viridis")
+            .format(precision=2, thousands=" ", decimal="."), 
+            height=500
+        )
+    
+    st.markdown("### 📋 EQUIVALENCIA DE VARIABLES")
+    st.markdown("""
+    | Nombre en Sistema | Nombre en Dataset (QoG) | Descripción Técnica |
+    | :--- | :--- | :--- |
+    | **País** | `cname` | Nombre oficial del país. |
+    | **Año** | `year` | Periodo fiscal del registro. |
+    | **PIB per Cápita** | `gle_cgdpc` | GDP per cápita (Serie GDP de QoG). |
+    | **Esperanza de Vida** | `wdi_lifexp` | Años de vida promedio al nacer (World Bank). |
+    | **Índice de Democracia** | `p_polity2` | Regime score (Polity IV): -10 (Autocracia) a +10 (Democracia). |
+    | **Control Corrupción** | `vdem_corr` | Political corruption index (V-Dem): 0 (Limpio) a 1 (Corrupto). |
+    | **Gasto Militar (% PIB)** | `wdi_expmil` | Gasto en defensa como porcentaje del PIB nacional. |
+    | **Población Total** | `wdi_pop` | Número total de habitantes (World Bank). |
+    """)
     st.caption("Fuente: Quality of Government (QoG) Standard Time-Series Dataset")
 
 def render_ai_advisor(df_target):
