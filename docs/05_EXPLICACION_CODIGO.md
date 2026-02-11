@@ -96,9 +96,11 @@ Son el Frontend de la aplicación.
 - **Funciones:**
   - Cargar el Parquet procesado.
   - Generar gráficos interactivos con Plotly.
-  - **Pro Version:** Incluye globo 3D, radar charts y estética "Dark Mode".
-  - Sirve una interfaz web en el puerto `8501`.
-  - Permite al usuario explorar los datos: filtrar por año, ver tendencias temporales interactivas y simular predicciones.
+  - **Pro Version (Madrid Elite Edition) 🌟:**
+  - Estética **Glassmorphism** premium (efecto cristal).
+  - Globo 3D, radar charts y HUD dinámico.
+  - **AI Strategic Advisor:** Motor de análisis automático que genera informes de riesgo y oportunidad en tiempo real.
+  - **Modo Presentación:** Navegación por diapositivas ideal para defensas oficiales.
   - Es la "cara" del proyecto, transformando el código técnico en un producto visual consumible por un usuario final.
 
 ---

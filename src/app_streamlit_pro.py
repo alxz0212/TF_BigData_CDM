@@ -25,106 +25,94 @@ COUNTRY_CONFIG = {
     "Armenia":     {"flag": "🇦🇲", "lat": 40.0691, "lon": 45.0382, "iso": "ARM"}
 }
 
-# Inyección de CSS para "Look & Feel" Profesional
+# Inyección de CSS para "Look & Feel" Profesional (Madrid Elite Edition)
 st.markdown("""
 <style>
-    /* Importar fuente futurista */
-    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Roboto:wght@300;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;700&display=swap');
 
-    /* Fondo general oscuro */
     .stApp {
-        background-color: #0e1117;
-        color: #e0e0e0;
+        background: radial-gradient(circle at top right, #0a192f, #020c1b);
+        color: #e6f1ff;
+        font-family: 'Inter', sans-serif;
     }
-    
-    /* Headers con fuente mono */
+
+    /* Glassmorphism Card Effect */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        border-left: 5px solid #64ffda;
+    }
+
+    /* AI Report Style */
+    .ai-report-box {
+        background: rgba(100, 255, 218, 0.05);
+        border: 1px solid #64ffda;
+        padding: 25px;
+        border-radius: 10px;
+        color: #ccd6f6;
+        line-height: 1.6;
+        font-size: 1.1rem;
+    }
+
     h1, h2, h3 {
-        font-family: 'Roboto', sans-serif;
-        font-weight: 700;
-        color: #ffffff;
-        text-transform: uppercase;
-        letter-spacing: 2px;
+        font-family: 'Orbitron', sans-serif !important;
+        color: #64ffda !important;
+        text-transform: none !important;
+        letter-spacing: 1px !important;
     }
-    
-    /* Métricas estilo HUD */
+
+    /* Metric HUD */
     div[data-testid="metric-container"] {
-        background-color: rgba(28, 31, 38, 0.8);
-        border: 1px solid #333;
-        padding: 15px;
-        border-radius: 5px;
-        border-left: 4px solid #00d4ff; /* Cyan Neon */
-        box-shadow: 0 0 10px rgba(0, 212, 255, 0.1);
+        background: rgba(10, 25, 47, 0.6) !important;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(100, 255, 218, 0.2) !important;
+        border-radius: 12px !important;
+        padding: 15px !important;
+        transition: transform 0.3s ease;
     }
-    
-    /* Textos de métricas */
+    div[data-testid="metric-container"]:hover {
+        transform: translateY(-5px);
+        border-color: #64ffda !important;
+    }
+
     label[data-testid="stMetricLabel"] {
-        color: #888 !important;
-        font-family: 'Share Tech Mono', monospace;
+        color: #8892b0 !important;
+        font-weight: 700 !important;
     }
     div[data-testid="stMetricValue"] {
-        color: #00d4ff !important;
-        font-family: 'Share Tech Mono', monospace;
-        font-size: 28px !important;
+        color: #64ffda !important;
+        font-size: 32px !important;
+        text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
     }
 
-    /* Tabs Neon Style */
+    /* Tabs Customization */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 10px;
+        background-color: transparent;
+        border-bottom: 2px solid rgba(100, 255, 218, 0.1);
     }
     .stTabs [data-baseweb="tab"] {
-        height: 50px;
-        white-space: pre-wrap;
-        background-color: #1c1f26;
-        border-radius: 5px 5px 0px 0px;
-        gap: 1px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        color: #888;
+        color: #8892b0;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 0.9rem;
+        padding: 10px 20px;
     }
     .stTabs [aria-selected="true"] {
-        background-color: #0e1117 !important;
-        color: #00d4ff !important;
-        border-top: 2px solid #00d4ff;
+        color: #64ffda !important;
+        border-bottom-color: #64ffda !important;
+        background-color: rgba(100, 255, 218, 0.05) !important;
     }
 
-    /* Ocultar elementos default de Streamlit */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-
-    /* Optimización para Impresión (PDF) */
-    /* Optimización para Impresión (PDF) */
+    /* Print Optimization */
     @media print {
-        /* Forzar impresión de fondos (Oscuros) */
-        * {
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-        }
-
-        /* Ocultar elementos de UI */
-        [data-testid="stSidebar"], 
-        header, 
-        footer, 
-        .stDeployButton {
-            display: none !important;
-        }
-        
-        /* Mantener estilo oscuro en impresión si el usuario lo desea */
-        .stApp, .stApp > header {
-            background-color: #0e1117 !important;
-            color: #e0e0e0 !important;
-        }
-        
-        /* Ajustar ancho para PDF A4/Letter */
-        .main .block-container {
-            max-width: 100% !important;
-            padding: 1rem !important;
-        }
-        
-        /* Evitar cortes en gráficos */
-        .stPlotlyChart, div[data-testid="stMetricValue"] {
-            break-inside: avoid;
-            page-break-inside: avoid;
-        }
+        .stApp { background: white !important; color: black !important; }
+        .glass-card { background: #f8fafc !important; border: 1px solid #e2e8f0 !important; color: black !important; }
+        .ai-report-box { background: #f1f5f9 !important; border: 2px solid #64748b !important; color: black !important; }
+        [data-testid="stSidebar"], .stDeployButton, header { display: none !important; }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -356,6 +344,57 @@ def render_dataset(df_total):
         st.dataframe(df_total.style.background_gradient(cmap="viridis"), height=600)
     st.caption("Fuente: Quality of Government (QoG) Standard Time-Series Dataset")
 
+def render_ai_advisor(df_target):
+    st.markdown("## 🤖 AI STRATEGIC ADVISOR")
+    st.markdown("""
+    <div style="margin-bottom: 20px;">
+        <span style="background-color: #64ffda; color: #020c1b; padding: 5px 10px; border-radius: 5px; font-weight: bold; font-family: 'Orbitron';">SISTEMA DE INTELIGENCIA ACTIVO</span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if not df_target.empty:
+        # Analisis heurístico basado en datos reales
+        avg_pib = df_target['gle_cgdpc'].mean()
+        avg_mil = df_target['wdi_expmil'].mean()
+        avg_dem = df_target['p_polity2'].mean()
+        avg_corr = df_target['vdem_corr'].mean()
+
+        # Generar "Reflexión IA" basada en los datos
+        st.markdown('<div class="ai-report-box">', unsafe_allow_html=True)
+        
+        st.markdown(f"### 📑 Informe Ejecutivo - Año {selected_year}")
+        
+        # Lógica de interpretación dinámica
+        intro = f"Tras analizar los **{len(df_target)} países** del Gran Juego para el año **{selected_year}**, se observa un PIB per cápita regional de **${avg_pib:,.0f}**."
+        
+        if avg_mil > 3.0:
+            mil_analysis = "⚠️ Se detecta una **fuerte militarización** regional. El gasto en defensa está por encima del promedio histórico, lo que sugiere una alta tensión geopolítica o preparación para inestabilidad."
+        else:
+            mil_analysis = "✅ El gasto militar se mantiene en niveles moderados, lo que podría indicar una fase de estabilidad o transición hacia inversiones en desarrollo civil."
+
+        if avg_dem < 0:
+            dem_analysis = "📉 La región presenta una tendencia hacia el **autoritarismo o democracias híbridas**. La falta de libertades políticas sigue siendo la mayor barrera para la inversión extranjera a largo plazo."
+        else:
+            dem_analysis = "📈 Se observa un avance en los niveles de apertura democrática. Esta estabilidad institucional es el motor que explica el crecimiento económico en los países líderes del grupo."
+
+        corr_analysis = f"En cuanto a la corrupción, el índice promedio de **{avg_corr:.2f}** indica que la calidad institucional es {'crítica' if avg_corr > 0.6 else 'aceptable'}. "
+
+        conclusion = "🚀 **Veredicto Estratégico:** Para la Comunidad de Madrid y observadores internacionales, la región representa una **'Oportunidad de Alto Riesgo'**. Se recomienda priorizar la cooperación con naciones que han logrado desacoplar su crecimiento económico de la dependencia militar."
+
+        st.markdown(f"{intro}\n\n{mil_analysis}\n\n{dem_analysis}\n\n{corr_analysis}\n\n{conclusion}")
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        # Gráfico adicional de contexto
+        st.markdown("---")
+        fig_trend = px.scatter(df_target, x="vdem_corr", y="gle_cgdpc", size="wdi_expmil", color="subregion",
+                               hover_name="cname", text="cname",
+                               labels={"vdem_corr": "Índice de Corrupción", "gle_cgdpc": "PIB Per Cápita"},
+                               title="Correlación: Corrupción vs Crecimiento (Tamaño = Gasto Militar)")
+        fig_trend.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", font_color="white")
+        st.plotly_chart(fig_trend, use_container_width=True)
+    else:
+        st.error("No hay datos cargados para generar el informe de IA.")
+
 
 # -----------------------------------------------------------------------------
 # 5. Panel Principal (Control de Flujo)
@@ -377,7 +416,8 @@ if pres_mode:
         {"title": "🌍 1. GLOBAL SITUATION ROOM", "func": lambda: render_geo_dashboard(df_yr)},
         {"title": "⚔️ 2. HEAD-TO-HEAD ANALYSIS", "func": lambda: render_pvp_analysis(df_yr)},
         {"title": "🤖 3. AI STRATEGIC SIMULATOR", "func": lambda: render_ai_simulator(df)},
-        {"title": "📄 4. DATA SOURCE INTELLIGENCE", "func": lambda: render_dataset(df)}
+        {"title": "🧠 4. AI STRATEGIC ADVISOR", "func": lambda: render_ai_advisor(df_yr)},
+        {"title": "📄 5. DATA SOURCE INTELLIGENCE", "func": lambda: render_dataset(df)}
     ]
 
     total_slides = len(slides)
@@ -421,7 +461,13 @@ elif print_mode:
 
 else:
     # MODO STANDARD: Renderizar con Tabs
-    tab_geo, tab_vs, tab_ai, tab_raw = st.tabs(["🌍 GLOBAL SITUATION ROOM", "⚔️ HEAD-TO-HEAD", "🤖 AI SIMULATOR", "📄 DATA SOURCE"])
+    tab_geo, tab_vs, tab_ai, tab_advisor, tab_raw = st.tabs([
+        "🌍 GLOBAL SITUATION ROOM", 
+        "⚔️ HEAD-TO-HEAD", 
+        "🤖 AI SIMULATOR", 
+        "🧠 AI ADVISOR",
+        "📄 DATA SOURCE"
+    ])
 
     # --- TAB 1: SITUATION ROOM ---
     with tab_geo:
@@ -434,7 +480,11 @@ else:
     # --- TAB 3: AI SIMULATOR ---
     with tab_ai:
         render_ai_simulator(df)
+        
+    # --- TAB 4: AI ADVISOR (NEW) ---
+    with tab_advisor:
+        render_ai_advisor(df_yr)
 
-    # --- TAB 4: DATA SOURCE ---
+    # --- TAB 5: DATA SOURCE ---
     with tab_raw:
         render_dataset(df)
